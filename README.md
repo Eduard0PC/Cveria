@@ -1,3 +1,3 @@
-# PromptCV
+# Cveria
 
 CV + IA
