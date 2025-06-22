@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     try {
         //Verificacion de usuario exixtente
         const existingUser = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (existingUser) {
+        if (existingUser.rows.length > 0) {
             return Response.json({ error: 'El usuario YA existe' }, { status: 409 });
         }
 
