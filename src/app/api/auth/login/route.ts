@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { signToken } from '@/lib/auth';
 import db from '@/lib/db';
 
 export async function POST(req: NextRequest) {
@@ -18,14 +18,9 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: 'Credenciales inválidas' }, { status: 401 });
     }
 
-    const secret = process.env.JWT_SECRET;
-    if (!secret) throw new Error('JWT_SECRET no está definido');
-
-    const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, secret, {
-      expiresIn: '1h',
-    });
-
-    return Response.json({ token, name: user.name});
+    const token = signToken({ id: user.id, name: user.name, email: user.email });
+    //Token
+    return Response.json({message: `Bienvenido, ${user.name}!`,token, user: { id: user.id, name: user.name, email: user.email }});
   } catch (error) {
     console.error(error);
     return Response.json({ error: 'Error al iniciar sesión' }, { status: 500 });

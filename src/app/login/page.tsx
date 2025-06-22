@@ -19,6 +19,7 @@ export default function LoginPage() {
     const endpoint = isRegister ? '/api/auth/register' : '/api/auth/login'
     const res = await fetch(endpoint, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(isRegister ? { email, password, name } : { email, password }),
     })
 
@@ -26,7 +27,7 @@ export default function LoginPage() {
 
     if (res.ok) {
       localStorage.setItem('token', data.token)
-      setMessage(`Bienvenido, ${data.name || email}!`)
+      setMessage(data.message);
       // router.push('/dashboard')
     } else {
       setMessage(data.error || 'Error en el formulario')
@@ -67,6 +68,7 @@ export default function LoginPage() {
           <input
             type="email"
             placeholder="Correo"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             className="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded-lg bg-neutral-50 dark:bg-neutral-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -75,6 +77,7 @@ export default function LoginPage() {
           <input
             type="password"
             placeholder="Contraseña"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             className="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded-lg bg-neutral-50 dark:bg-neutral-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
