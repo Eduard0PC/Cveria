@@ -117,7 +117,9 @@ export default function LoginPage() {
             {isRegister ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?'}{' '}
             <button
               type="button"
-              onClick={() => setIsRegister(!isRegister)}
+              onClick={() => {
+                setIsRegister(!isRegister) 
+                setMessage('')}}
               className="text-green-600 hover:underline"
             >
               {isRegister ? 'Inicia sesión' : 'Presiona aquí'}
