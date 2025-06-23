@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../../globals.css";
+import Header from "@/app/components/Header";
+
 
 export const metadata: Metadata = {
-  title: "Cveria",
-  description: "Curriculums + IA = Cveria",
+  title: "Home",
+  description: "Homepage de Cveria",
 };
 
 export default function HomeLayout({
@@ -12,10 +14,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body>
-        {children}
-      </body>
-    </html>
+    <>
+      <Header />
+      {children}
+    </>
   );
 }
