@@ -8,7 +8,7 @@ if (!JWT_SECRET) {
 
 export function signToken(payload: object, options: SignOptions = {}): string {
   return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: '1h',
+    expiresIn: '1d',
     algorithm: 'HS256',
     ...options,
   });

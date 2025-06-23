@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import LoginImage from '@/app/components/LoginImage'
 
@@ -21,19 +21,23 @@ export default function LoginPage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(isRegister ? { email, password, name } : { email, password }),
+      credentials: 'include',
     })
 
     const data = await res.json()
 
     if (res.ok) {
-      localStorage.setItem('token', data.token)
       setMessage(data.message);
-      // router.push('/dashboard')
+      router.push('/')
     } else {
       setMessage(data.error || 'Error en el formulario')
     }
   }
 
+  useEffect(() => {
+    setMessage('');
+  }, [email, password, name, confirmPassword]);
+  
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center">
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center px-8 py-12">
@@ -102,8 +106,8 @@ export default function LoginPage() {
             type="submit"
             disabled={isRegister && password !== confirmPassword}
             className={`w-full py-2 rounded-lg transition-all shadow-md ${isRegister && password !== confirmPassword
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-gradient-to-r from-green-600 to-blue-600 text-white hover:brightness-110'
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-gradient-to-r from-green-600 to-blue-600 text-white hover:brightness-110'
               }`}
           >
             {isRegister ? 'Registrarse' : 'Iniciar sesión'}
@@ -118,8 +122,9 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => {
-                setIsRegister(!isRegister) 
-                setMessage('')}}
+                setIsRegister(!isRegister)
+                setMessage('')
+              }}
               className="text-green-600 hover:underline"
             >
               {isRegister ? 'Inicia sesión' : 'Presiona aquí'}
