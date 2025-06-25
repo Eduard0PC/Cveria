@@ -1,8 +1,9 @@
 import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server' 
+import { NextResponse } from 'next/server'
 import bcrypt from 'bcrypt';
 import { signToken } from '@/lib/auth';
 import db from '@/lib/db';
+import { setAuthCookie } from '@/lib/cookies'
 
 export async function POST(req: NextRequest) {
     const { name, email, password } = await req.json();
@@ -33,15 +34,7 @@ export async function POST(req: NextRequest) {
             user: { id: user.id, name: user.name, email: user.email }
         })
 
-        response.cookies.set({
-            name: 'token',
-            value: token,
-            httpOnly: true,
-            path: '/',
-            sameSite: 'strict',
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 60 * 60 * 24 // 1 día
-        })
+        setAuthCookie(response, token)
 
         return response
     } catch (error) {
