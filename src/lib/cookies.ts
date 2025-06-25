@@ -8,6 +8,6 @@ export function setAuthCookie(response: NextResponse, token: string) {
     path: '/',
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 60 * 5, // 5 minutos
+    maxAge: 60 * 60 * 24, // 1 día
   })
 }

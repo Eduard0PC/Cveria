@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import ClientHeader from "./ClientHeader";
+import Link from "next/link";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
@@ -21,7 +22,9 @@ export default async function Header() {
   return (
     <header className="fixed top-0 w-full z-50 bg-white dark:bg-neutral-900 p-4 flex justify-between items-center shadow-sm dark:shadow-md transition-colors duration-300">
       <h1 className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600">
-        Cveria
+        <Link href="/home">
+          Cveria
+        </Link>
       </h1>
       <div className="flex items-center gap-4">
         {username && (
