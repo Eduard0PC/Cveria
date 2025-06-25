@@ -1,12 +1,46 @@
 'use client'
-export default function HomePage() {
+import { DocumentIcon, AnalizeDocIcon } from '../../components/icons';
 
+export default function HomePage() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-4xl font-bold mb-4">Home</h1>
-      <p className="text-lg">
-        Hola cara de bola!
-      </p>
+    <main className="flex flex-col items-center justify-center min-h-screen px-4 ">
+      <h1 className="text-4xl sm:text-5xl text-center font-bold mb-12">
+        ¿Qué deseas hacer?
+      </h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-5xl">
+        {/* card 1 */}
+        <a
+          href="#"
+          className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
+        >
+          <div className="flex flex-col items-center text-center space-y-4">
+            <DocumentIcon />
+            <h2 className="text-2xl font-bold group-hover:bg-gradient-to-r group-hover:from-green-600 group-hover:to-blue-600 group-hover:text-transparent group-hover:bg-clip-text">
+              <strong>CV tu CV</strong>
+            </h2>
+            <p className="text-sm sm:text-base max-w-sm">
+              Crea un CV totalmente personalizado con inteligencia artificial.
+            </p>
+          </div>
+        </a>
+
+        {/* card 2 */}
+        <a
+          href="#"
+          className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
+        >
+          <div className="flex flex-col items-center text-center space-y-4">
+            <AnalizeDocIcon />
+            <h2 className="text-2xl font-bold group-hover:bg-gradient-to-r group-hover:from-green-600 group-hover:to-blue-600 group-hover:text-transparent group-hover:bg-clip-text">
+              <strong>Analiza tu CV</strong>
+            </h2>
+            <p className="text-sm sm:text-base max-w-sm">
+              ¿Ya tienes un CV? Analízalo y recibe sugerencias con IA.
+            </p>
+          </div>
+        </a>
+      </div>
     </main>
   )
 }

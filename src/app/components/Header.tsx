@@ -19,16 +19,19 @@ export default async function Header() {
   }
 
   return (
-    <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold">Cveria</h1>
+    <header className="fixed top-0 w-full z-50 bg-white dark:bg-neutral-900 p-4 flex justify-between items-center shadow-sm dark:shadow-md transition-colors duration-300">
+      <h1 className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600">
+        Cveria
+      </h1>
       <div className="flex items-center gap-4">
         {username && (
           <>
-            <span className="text-sm">Bienvenido, {username}</span>
+            <span className="text-sm text-black dark:text-white">Bienvenid@ {username}</span>
             <ClientHeader />
           </>
         )}
       </div>
     </header>
+
   );
 }
