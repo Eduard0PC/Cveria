@@ -129,7 +129,7 @@ export default function checkPage() {
       </label>
 
       <button
-        className="cursor-pointer mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-green-700 w-full max-w-xs sm:max-w-fit"
+        className="cursor-pointer mt-6 bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-2 rounded hover:bg-radial w-full max-w-xs sm:max-w-fit"
         onClick={handleUpload}
       >
         Analizar CV
