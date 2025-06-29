@@ -1,6 +1,5 @@
 import Header from "@/app/components/Header";
 import type { Metadata } from "next";
-import { TextProvider } from '../../context/JobContext';
 
 export const metadata: Metadata = {
   title: "App"
@@ -13,9 +12,7 @@ export default function HomeLayout({
   return (
     <>
       <Header />
-      <TextProvider>
-        {children}
-      </TextProvider>
+      {children}
     </>
   );
 }

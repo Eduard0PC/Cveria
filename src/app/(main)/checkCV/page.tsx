@@ -1,21 +1,24 @@
 'use client'
 import { useRouter } from 'next/navigation';
-import { useText } from '../../../context/JobContext';
+import { useState } from 'react';
 
-export default function Job() {
+export default function checkPage() {
   const router = useRouter();
-  const { text, setText } = useText();
+  const [text, setText] = useState('');
 
   const handleClick = () => {
     console.log('Texto guardado:', text);
-    router.push('/upload')
+    //router.push('/upload')
   };
 
   return (
     <main className="flex flex-col items-center min-h-screen px-4 ">
       <h1 className="text-4xl sm:text-5xl text-center font-bold mt-27">
-        Antes que nada...
+        Analizemos el CV
       </h1>
+      <p className="mt-4 text-lg">
+        Sube tu CV en PDF para proceder a analizarlo.
+      </p>
       <p className="mt-4 text-lg">
         Describe brevemente para qué puesto estás aplicando, para dar resultados más precisos.
       </p>

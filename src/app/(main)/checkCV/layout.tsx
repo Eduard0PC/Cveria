@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Antes de comenzar...',
-  description: 'Describe el puesto al que deseas aplicar.',
+  title: 'Analizar CV',
+  description: 'analizar CV con IA',
 };
 export default function JobLayout({
   children,

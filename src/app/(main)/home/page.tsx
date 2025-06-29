@@ -28,7 +28,7 @@ export default function HomePage() {
         </button>
 
         <button
-          onClick={() => router.push('/job')}
+          onClick={() => router.push('/checkCV')}
           className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] text-left"
         >
           <div className="flex flex-col items-center text-center space-y-4">
