@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Analizar CV',
   description: 'analizar CV con IA',
 };
-export default function JobLayout({
+export default function CheckLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
