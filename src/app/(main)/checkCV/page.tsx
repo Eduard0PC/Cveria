@@ -17,13 +17,21 @@ export default function checkPage() {
     formData.append('cv', file);
     formData.append('context', context);
 
-    const response = await fetch('/api/upload', {
+    const response = await fetch('/api/checkcv', {
       method: 'POST',
       body: formData,
     });
 
-    const data = await response.text();
-    console.log('Respuesta IA:', data);
+    if (!response.ok) {
+      alert('Hubo un error al analizar el CV.')
+      return
+    }
+
+    const data = await response.json()
+
+    sessionStorage.setItem('resultadoIA', data.result)
+    router.push('/results');
+
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
