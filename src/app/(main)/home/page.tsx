@@ -1,7 +1,10 @@
 'use client'
+import { useRouter } from 'next/navigation';
 import { DocumentIcon, AnalizeDocIcon } from '../../components/icons';
 
 export default function HomePage() {
+  const router = useRouter();
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen px-4 ">
       <h1 className="text-4xl sm:text-5xl text-center font-bold mb-12">
@@ -9,14 +12,9 @@ export default function HomePage() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-5xl">
-        {/* card 1 */}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            alert('En proceso, vuelva pronto');
-          }}
-          className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
+        <button
+          onClick={() => router.push('')}
+          className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] text-left"
         >
           <div className="flex flex-col items-center text-center space-y-4">
             <DocumentIcon />
@@ -27,12 +25,11 @@ export default function HomePage() {
               Crea un CV totalmente personalizado con inteligencia artificial.
             </p>
           </div>
-        </a>
+        </button>
 
-        {/* card 2 */}
-        <a
-          href="#"
-          className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
+        <button
+          onClick={() => router.push('/job')}
+          className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] text-left"
         >
           <div className="flex flex-col items-center text-center space-y-4">
             <AnalizeDocIcon />
@@ -43,8 +40,8 @@ export default function HomePage() {
               ¿Ya tienes un CV? Analízalo y recibe sugerencias con IA.
             </p>
           </div>
-        </a>
+        </button>
       </div>
     </main>
-  )
+  );
 }

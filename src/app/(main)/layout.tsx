@@ -1,8 +1,9 @@
+import Header from "@/app/components/Header";
 import type { Metadata } from "next";
+import { TextProvider } from '../../context/JobContext';
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Home page of the application",
+  title: "App"
 };
 export default function HomeLayout({
   children,
@@ -11,7 +12,10 @@ export default function HomeLayout({
 }>) {
   return (
     <>
-      {children}
+      <Header />
+      <TextProvider>
+        {children}
+      </TextProvider>
     </>
   );
 }
