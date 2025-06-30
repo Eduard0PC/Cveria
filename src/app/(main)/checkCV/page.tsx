@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AiFillFilePdf, AiOutlineClose } from 'react-icons/ai';
 
 export default function checkPage() {
@@ -8,10 +8,23 @@ export default function checkPage() {
   const [context, setContext] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dots, setDots] = useState('');
+
+  useEffect(() => {
+    if (!loading) return;
+
+    const interval = setInterval(() => {
+      setDots(prev => (prev.length >= 3 ? '' : prev + '.'));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [loading]);
 
   const handleUpload = async () => {
-    console.log('Texto guardado:', context);
     if (!file) return alert('Por favor, sube un archivo PDF.');
+
+    setLoading(true);
 
     const formData = new FormData();
     formData.append('cv', file);
@@ -73,10 +86,20 @@ export default function checkPage() {
     <main
       className="flex flex-col items-center min-h-screen px-4"
       onDragOver={(e) => {
-        e.preventDefault();
-        setDragging(true);
+        if (!file) {
+          e.preventDefault();
+          setDragging(true);
+        }
       }}
     >
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-100 dark:bg-black bg-opacity-50 z-10">
+          <p className="text-2xl font-semibold text-black dark:text-gray-100">
+            Analizando{dots}
+          </p>
+        </div>
+      )}
+
       <h1 className="text-3xl sm:text-5xl text-center font-bold mt-20 px-2">
         <strong>Sube tu CV en PDF</strong>
       </h1>

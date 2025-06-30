@@ -5,6 +5,10 @@ import { DocumentIcon, AnalizeDocIcon } from '../../components/icons';
 export default function HomePage() {
   const router = useRouter();
 
+  const handleCreateCV = () => {
+    alert('En proceso... Hombre laburando');
+  };
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen px-4 ">
       <h1 className="text-4xl sm:text-5xl text-center font-bold mb-12">
@@ -13,7 +17,7 @@ export default function HomePage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-5xl">
         <button
-          onClick={() => router.push('')}
+          onClick={handleCreateCV}
           className="group rounded-3xl border p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] text-left"
         >
           <div className="flex flex-col items-center text-center space-y-4">

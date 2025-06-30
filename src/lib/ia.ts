@@ -20,7 +20,7 @@ export async function analizarConOpenRouter(
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(error?.error?.message || 'Error al contactar a OpenRouter')
+    throw new Error(error?.error?.message || 'Error al conectar con OpenRouter')
   }
 
   const data = await response.json()
