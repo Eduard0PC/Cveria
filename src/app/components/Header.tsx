@@ -4,6 +4,9 @@ import ClientHeader from "./ClientHeader";
 import Link from "next/link";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
+interface JwtPayload {
+  name: string;
+}
 
 export default async function Header() {
   const cookieStore = await cookies();
@@ -12,7 +15,7 @@ export default async function Header() {
 
   if (token && JWT_SECRET) {
     try {
-      const decoded = jwt.verify(token, JWT_SECRET) as any;
+      const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
       username = decoded.name;
     } catch (err) {
       console.error("Token inválido:", err);
@@ -35,6 +38,5 @@ export default async function Header() {
         )}
       </div>
     </header>
-
   );
 }
