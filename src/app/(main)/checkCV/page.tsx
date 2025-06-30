@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { AiFillFilePdf, AiOutlineClose } from 'react-icons/ai';
 
-export default function checkPage() {
+export default function CheckPage() {
   const router = useRouter();
   const [context, setContext] = useState('');
   const [file, setFile] = useState<File | null>(null);
