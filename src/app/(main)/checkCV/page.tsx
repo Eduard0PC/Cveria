@@ -37,14 +37,14 @@ export default function CheckPage() {
 
     if (!response.ok) {
       alert('Hubo un error al analizar el CV.')
+      setLoading(false); 
       return
     }
-
+    
     const data = await response.json()
 
     sessionStorage.setItem('resultadoIA', data.result)
     router.push('/results');
-
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
