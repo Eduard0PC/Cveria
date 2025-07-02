@@ -149,7 +149,7 @@ export default function CheckPage() {
 
       <label className="block w-full max-w-6xl mt-6 px-2">
         <p className="text-lg text-center sm:text-left">
-          <strong>(Opcional)</strong> Describe brevemente para qué puesto estás aplicando, para dar resultados más precisos.
+          <strong>(Opcional)</strong> Describe brevemente para qué puesto estás aplicando (Ayuda a dar resutados mas específicos).
         </p>
         <textarea
           value={context}
