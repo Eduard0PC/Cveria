@@ -2,7 +2,7 @@ import Header from "@/app/components/Header";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CV"
+  title: "Ceveria"
 };
 export default function HomeLayout({
   children,
