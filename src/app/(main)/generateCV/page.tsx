@@ -14,6 +14,8 @@ export default function QuestionsPage() {
         fortalezas: [] as string[]
     })
 
+    const [context, setContext] = useState('')
+
     const agregarElemento = <T,>(campo: keyof typeof answers, nuevo: T) => {
         setAnswers(prev => ({
             ...prev,
@@ -184,6 +186,14 @@ export default function QuestionsPage() {
                 }
                 className="border p-2 w-full"
             />
+        </div>,
+        <div key="jobContext">
+            <label className="block mb-2"><strong>(Opcional)Describe brevemente para qué puesto estás aplicando (Ayuda a dar resutados mas específicos) </strong>:</label>
+            <textarea
+                onChange={(e) => setContext(e.target.value)}
+                placeholder="Escribe aquí el puesto o descríbelo..."
+                className="border p-2 w-full"
+            />
         </div>
     ]
 
@@ -202,7 +212,7 @@ export default function QuestionsPage() {
                 <div className="flex justify-between mt-6">
                     <button
                         onClick={() => setStep(p => Math.max(0, p - 1))}
-                        className="bg-green-600 px-4 py-2 rounded disabled:opacity-50"
+                        className="bg-green-600 text-white px-4 py-2 rounded disabled:opacity-50"
                         disabled={step === 0}
                     >
                         Anterior
