@@ -10,7 +10,8 @@ export default function QuestionsPage() {
         perfil: '',
         experiencia: [] as { puesto: string; empresa: string; descripcion: string }[],
         educacion: [] as { titulo: string; institucion: string }[],
-        habilidades: [] as string[]
+        habilidades: [] as string[],
+        fortalezas: [] as string[]
     })
 
     const agregarElemento = <T,>(campo: keyof typeof answers, nuevo: T) => {
@@ -172,46 +173,59 @@ export default function QuestionsPage() {
                 }
                 className="border p-2 w-full"
             />
+        </div>,
+        <div key="fortalezas">
+            <label className="block mb-2">Lista tus fortalezas o logros (separadas por coma):</label>
+            <input
+                type="text"
+                value={answers.fortalezas.join(', ')}
+                onChange={e =>
+                    setAnswers({ ...answers, fortalezas: e.target.value.split(',').map(h => h.trim()) })
+                }
+                className="border p-2 w-full"
+            />
         </div>
     ]
 
     return (
-        <div className="max-w-2xl mx-auto mt-40 border p-10 rounded-lg shadow-lg bg-white dark:bg-gray-800">
-            <h2 className="text-3xl sm:text-5xl text-center font-bold px-2">
-                <strong>Antes de nada...</strong>
-            </h2>
-            <p className="text-lg text-center mt-4 mb-4 px-2">
-                Por favor, contesta estas preguntas para generar tu CV.
-            </p>
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="max-w-2xl w-full mx-auto border p-10 rounded-lg shadow-lg bg-white dark:bg-gray-800">
+                <h2 className="text-3xl sm:text-5xl text-center font-bold px-2">
+                    <strong>Antes de nada...</strong>
+                </h2>
+                <p className="text-lg text-center mt-4 mb-4 px-2">
+                    Por favor, contesta estas preguntas para generar tu CV.
+                </p>
 
-            {steps[step]}
+                {steps[step]}
 
-            <div className="flex justify-between mt-6">
-                <button
-                    onClick={() => setStep(p => Math.max(0, p - 1))}
-                    className="bg-green-600 px-4 py-2 rounded disabled:opacity-50"
-                    disabled={step === 0}
-                >
-                    Anterior
-                </button>
-                {step < steps.length - 1 ? (
+                <div className="flex justify-between mt-6">
                     <button
-                        onClick={() => setStep(p => p + 1)}
-                        className="bg-blue-600 text-white px-4 py-2 rounded"
+                        onClick={() => setStep(p => Math.max(0, p - 1))}
+                        className="bg-green-600 px-4 py-2 rounded disabled:opacity-50"
+                        disabled={step === 0}
                     >
-                        Siguiente
+                        Anterior
                     </button>
-                ) : (
-                    <button
-                        onClick={() => {
-                            console.log('CV JSON:', answers)
-                            alert('Guardad con exito')
-                        }}
-                        className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-4 py-2 rounded"
-                    >
-                        Finalizar
-                    </button>
-                )}
+                    {step < steps.length - 1 ? (
+                        <button
+                            onClick={() => setStep(p => p + 1)}
+                            className="bg-blue-600 text-white px-4 py-2 rounded"
+                        >
+                            Siguiente
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                console.log('CV JSON:', answers)
+                                alert('Guardado con éxito')
+                            }}
+                            className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-4 py-2 rounded"
+                        >
+                            Finalizar
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     )
