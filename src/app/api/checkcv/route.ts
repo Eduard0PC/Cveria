@@ -21,7 +21,7 @@ Tengo el siguiente CV:
 
 ${pdfText}
 
-${context ? `El usuario indicó este contexto para el empleo deseado:\n${context}` : ''}
+${context ? `El usuario indicó este contexto para el empleo deseado:\n${context}` : 'No especificado'}
 
 Por favor, analiza el siguiente CV de forma crítica y profesional.
 

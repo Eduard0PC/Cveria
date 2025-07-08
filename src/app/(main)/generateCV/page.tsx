@@ -1,7 +1,10 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function QuestionsPage() {
+    const router = useRouter()
+
     const [step, setStep] = useState(0)
 
     const [answers, setAnswers] = useState({
@@ -39,6 +42,29 @@ export default function QuestionsPage() {
         copia.splice(index, 1)
         setAnswers({ ...answers, [campo]: copia })
     }
+
+    async function generarCV() {
+        try {
+            const res = await fetch('/api/generatecv', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ answers, context }),
+            })
+
+            const data = await res.json()
+
+            if (res.ok) {
+                sessionStorage.setItem('contenidoCV', JSON.stringify(data.cv));
+                router.push('/cv')
+            } else {
+                alert('Error: ' + data.error)
+            }
+        } catch (error) {
+            alert('Error al generar el CV')
+            console.error(error)
+        }
+    }
+
 
     const steps = [
         <div key="nombre">
@@ -226,10 +252,7 @@ export default function QuestionsPage() {
                         </button>
                     ) : (
                         <button
-                            onClick={() => {
-                                console.log('CV JSON:', answers)
-                                alert('Guardado con éxito')
-                            }}
+                            onClick={generarCV}
                             className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-4 py-2 rounded"
                         >
                             Finalizar
