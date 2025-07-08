@@ -38,7 +38,7 @@ export default function CVPage() {
   return (
     <div>
       <CVone cv={cv} />
-      <div className="flex justify-center mt-8 gap-4">
+      <div className="flex justify-center mb-8 gap-4">
         <button
           onClick={() => window.history.back()}
           className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"

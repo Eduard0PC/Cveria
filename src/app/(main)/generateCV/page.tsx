@@ -18,6 +18,28 @@ export default function QuestionsPage() {
     })
 
     const [context, setContext] = useState('')
+    const [nuevaHabilidad, setNuevaHabilidad] = useState('')
+    const [nuevaFortaleza, setNuevaFortaleza] = useState('')
+
+    const agregarHabilidad = () => {
+        if (nuevaHabilidad.trim()) {
+            setAnswers(prev => ({
+                ...prev,
+                habilidades: [...prev.habilidades, nuevaHabilidad.trim()]
+            }))
+            setNuevaHabilidad('')
+        }
+    }
+
+    const agregarFortaleza = () => {
+        if (nuevaFortaleza.trim()) {
+            setAnswers(prev => ({
+                ...prev,
+                fortalezas: [...prev.fortalezas, nuevaFortaleza.trim()]
+            }))
+            setNuevaFortaleza('')
+        }
+    }
 
     const agregarElemento = <T,>(campo: keyof typeof answers, nuevo: T) => {
         setAnswers(prev => ({
@@ -192,29 +214,61 @@ export default function QuestionsPage() {
         </div>,
 
         <div key="habilidades">
-            <label className="block mb-2">Lista tus habilidades (separadas por coma):</label>
-            <input
-                type="text"
-                value={answers.habilidades.join(', ')}
-                onChange={e =>
-                    setAnswers({ ...answers, habilidades: e.target.value.split(',').map(h => h.trim()) })
-                }
-                className="border p-2 w-full"
-            />
+            <label className="block mb-2">Agrega una habilidad y presiona Enter o el botón:</label>
+            <div className="flex gap-2 mb-2">
+                <input
+                    type="text"
+                    value={nuevaHabilidad}
+                    onChange={e => setNuevaHabilidad(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && agregarHabilidad()}
+                    className="border p-2 w-full"
+                />
+                <button onClick={agregarHabilidad} className="bg-blue-500 text-white px-3 rounded">Agregar</button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+                {answers.habilidades.map((h, i) => (
+                    <div key={i} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        {h}
+                        <button
+                            onClick={() => eliminarElemento('habilidades', i)}
+                            className="ml-2 text-red-500 hover:text-red-700 font-bold"
+                            title="Eliminar"
+                        >
+                            ×
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>,
         <div key="fortalezas">
-            <label className="block mb-2">Lista tus fortalezas o logros (separadas por coma):</label>
-            <input
-                type="text"
-                value={answers.fortalezas.join(', ')}
-                onChange={e =>
-                    setAnswers({ ...answers, fortalezas: e.target.value.split(',').map(h => h.trim()) })
-                }
-                className="border p-2 w-full"
-            />
+            <label className="block mb-2">Agrega una fortaleza o logro y presiona Enter o el botón:</label>
+            <div className="flex gap-2 mb-2">
+                <input
+                    type="text"
+                    value={nuevaFortaleza}
+                    onChange={e => setNuevaFortaleza(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && agregarFortaleza()}
+                    className="border p-2 w-full"
+                />
+                <button onClick={agregarFortaleza} className="bg-blue-500 text-white px-3 rounded">Agregar</button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+                {answers.fortalezas.map((f, i) => (
+                    <div key={i} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        {f}
+                        <button
+                            onClick={() => eliminarElemento('fortalezas', i)}
+                            className="ml-2 text-red-500 hover:text-red-700 font-bold"
+                            title="Eliminar"
+                        >
+                            ×
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>,
         <div key="jobContext">
-            <label className="block mb-2"><strong>(Opcional)Describe brevemente para qué puesto estás aplicando (Ayuda a dar resutados mas específicos) </strong>:</label>
+            <label className="block mb-2"><strong>(Opcional)</strong> Describe brevemente para qué puesto estás aplicando (Ayuda a dar resutados mas específicos) :</label>
             <textarea
                 onChange={(e) => setContext(e.target.value)}
                 placeholder="Escribe aquí el puesto o descríbelo..."
