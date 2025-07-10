@@ -27,5 +27,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/home','/checkCV','/results']
+  matcher: ['/home','/checkCV','/results','/generateCV','/cv']
 }

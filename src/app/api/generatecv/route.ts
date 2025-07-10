@@ -63,7 +63,7 @@ ${answers.educacion.length ? answers.educacion.map(e => `${e.titulo} en ${e.inst
 Habilidades originales:
 ${answers.habilidades.join(', ') || 'No indicadas'}
 
-Fortalezas o logros originales (Describe de manera mas prolongada fortalezas o logros relevantes):
+Fortalezas o logros originales (ADEMAS Describe de manera mas prolongada fortalezas o logros relevantes):
 ${answers.fortalezas.join(', ') || 'No indicadas'}
 
 Devuelve solo el JSON mejorado. No escribas explicaciones, ni comentarios, ni encabezados.

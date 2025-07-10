@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import CVone from '@/app/components/cvone'
+import { useRouter } from 'next/navigation'
 
 type AnswersType = {
   nombre: string
@@ -16,6 +17,8 @@ export default function CVPage() {
   const [cv, setCV] = useState<AnswersType | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const router = useRouter()
 
   useEffect(() => {
     try {
@@ -38,10 +41,10 @@ export default function CVPage() {
   return (
     <div>
       <CVone cv={cv} />
-      <div className="flex justify-center mb-8 gap-4">
+      <div className="print:hidden flex justify-center mb-8 gap-4">
         <button
-          onClick={() => window.history.back()}
-          className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded"
+          onClick={() => router.push('/generateCV')}
+          className="bg-gray-400 hover:bg-gray-600 px-4 py-2 rounded"
         >
           Volver
         </button>
