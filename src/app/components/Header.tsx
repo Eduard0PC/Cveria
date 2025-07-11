@@ -23,7 +23,7 @@ export default async function Header() {
   }
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-white dark:bg-neutral-900 p-4 flex justify-between items-center shadow-sm dark:shadow-md transition-colors duration-300">
+    <header className="print:hidden fixed top-0 w-full z-50 bg-white dark:bg-neutral-900 p-4 flex justify-between items-center shadow-sm dark:shadow-md transition-colors duration-300">
       <h1 className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-600 hover:bg-radial">
         <Link href="/home">
           Cveria
