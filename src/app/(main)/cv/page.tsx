@@ -27,8 +27,12 @@ export default function CVPage() {
 
       const parsed = JSON.parse(stored)
       setCV(parsed)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('Error inesperado')
+      }
     } finally {
       setLoading(false)
     }

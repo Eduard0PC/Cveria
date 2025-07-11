@@ -2,12 +2,22 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+type AnswersType = {
+    nombre: string
+    contacto: { tipo: string; valor: string }[]
+    perfil: string
+    experiencia: { puesto: string; empresa: string; descripcion: string }[]
+    educacion: { titulo: string; institucion: string }[]
+    habilidades: string[]
+    fortalezas: string[]
+}
+
 export default function QuestionsPage() {
     const router = useRouter()
 
     const [step, setStep] = useState(0)
 
-    const [answers, setAnswers] = useState({
+    const [answers, setAnswers] = useState<AnswersType>({
         nombre: '',
         contacto: [] as { tipo: string; valor: string }[],
         perfil: '',
@@ -59,11 +69,20 @@ export default function QuestionsPage() {
         setAnswers({ ...answers, [campo]: copia })
     }
 
-    const eliminarElemento = (campo: keyof typeof answers, index: number) => {
-        const copia = [...(answers[campo] as any[])]
-        copia.splice(index, 1)
-        setAnswers({ ...answers, [campo]: copia })
-    }
+    const eliminarElemento = <K extends keyof AnswersType>(
+        campo: K,
+        index: number
+    ) => {
+        const actual = answers[campo];
+
+        if (Array.isArray(actual)) {
+            const copia = [...actual];
+            copia.splice(index, 1);
+            setAnswers({ ...answers, [campo]: copia as AnswersType[K] });
+        } else {
+            console.error(`El campo ${String(campo)} no es un arreglo`);
+        }
+    };
 
     async function generarCV() {
         try {
