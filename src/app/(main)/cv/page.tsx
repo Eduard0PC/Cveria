@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation'
 import { Listbox } from '@headlessui/react'
 import CVone from '@/app/components/cvone'
 import CVtwo from '@/app/components/cvtwo'
-
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 type AnswersType = {
   nombre: string
@@ -26,6 +27,10 @@ export default function CVPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [Design, setDesign] = useState<'cvone' | 'cvtwo'>('cvone')
+  const [analisis, setAnalisis] = useState<string | null>(null)
+  const [porcentaje, setPorcentaje] = useState<number | null>(null)
+  const [animatedValue, setAnimatedValue] = useState<number>(0)
+  const [mostrarAnalisis, setMostrarAnalisis] = useState<boolean>(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -45,6 +50,55 @@ export default function CVPage() {
       setLoading(false)
     }
   }, [])
+
+  useEffect(() => {
+    if (!cv) return
+    const analizarCV = async () => {
+      const fakeFile = new File([JSON.stringify(cv, null, 2)], 'cv.txt', { type: 'text/plain' })
+      const formData = new FormData()
+      formData.append('cv', fakeFile)
+      formData.append('context', '')
+
+      const response = await fetch('/api/checkcv', {
+        method: 'POST',
+        body: formData,
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setAnalisis(data.result)
+        const match = data.result.match(/Porcentaje de aprobación:\s*(\d{1,3})%/)
+        if (match) setPorcentaje(parseInt(match[1]))
+      }
+    }
+    analizarCV()
+  }, [cv])
+
+  // Animación del porcentaje
+  useEffect(() => {
+    if (porcentaje !== null) {
+      let start = 0
+      const duration = 1000
+      const increment = Math.ceil(porcentaje / (duration / 20))
+      const interval = setInterval(() => {
+        start += increment
+        if (start >= porcentaje) {
+          setAnimatedValue(porcentaje)
+          clearInterval(interval)
+        } else {
+          setAnimatedValue(start)
+        }
+      }, 20)
+      return () => clearInterval(interval)
+    }
+  }, [porcentaje])
+
+  // Animación de sugerencias
+  useEffect(() => {
+    if (analisis) {
+      const timeout = setTimeout(() => setMostrarAnalisis(true), 600)
+      return () => clearTimeout(timeout)
+    }
+  }, [analisis])
 
   if (loading) return <div className="text-center py-20">Cargando CV...</div>
   if (error) return <div className="text-center text-red-500 py-20">{error}</div>
@@ -91,7 +145,42 @@ export default function CVPage() {
         </Listbox>
       </div>
       {selectedDesign()}
-      <div className="print:hidden flex justify-center mb-8 gap-4">
+
+      <div className="print:hidden">
+        {porcentaje !== null && (
+          <div className="w-40 h-40 sm:w-50 sm:h-50 lg:w-100 lg:h-100 my-10 mx-auto">
+            <CircularProgressbar
+              value={animatedValue}
+              text={`${animatedValue}%`}
+              styles={buildStyles({
+                textSize: '16px',
+                pathColor: `rgba(${porcentaje >= 50 ? 34 : 59}, ${porcentaje >= 50 ? 197 : 130}, ${porcentaje >= 50 ? 94 : 246}, ${animatedValue / 100})`,
+                textColor: '',
+                trailColor: 'rgba(0, 0, 0, 0.1)',
+                backgroundColor: 'transparent',
+              })}
+            />
+            <p className="text-center mt-2 text-sm text-gray-800 dark:text-gray-300">Aprobación del CV</p>
+          </div>
+        )}
+
+        {analisis ? (
+          <pre
+            className={`
+            bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-4 rounded-lg whitespace-pre-wrap max-w-4xl w-full shadow-md
+            transform transition-all duration-700 ease-out
+            ${mostrarAnalisis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}
+            mx-auto mb-8
+          `}
+          >
+            {analisis}
+          </pre>
+        ) : (
+          <p className="text-gray-500 dark:text-gray-400 text-center">No hay análisis para mostrar.</p>
+        )}
+      </div>
+
+      <div className="print:hidden flex justify-center mt-8 mb-8 gap-4">
         <button
           onClick={() => router.push('/generateCV')}
           className="bg-gray-400 hover:bg-gray-600 px-4 py-2 rounded"

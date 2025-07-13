@@ -11,15 +11,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Archivo no enviado' }, { status: 400 })
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer())
-  const pdfText = (await pdfParse(buffer)).text
+  let cvText = ''
+  if (file.type === 'application/pdf') {
+    const buffer = Buffer.from(await file.arrayBuffer())
+    cvText = (await pdfParse(buffer)).text
+  } else {
+    // Si no es PDF, se asume que es texto plano
+    cvText = await file.text()
+  }
 
   //console.log('Texto extraído del PDF:', pdfText)
 
   const prompt = `
 Tengo el siguiente CV:
 
-${pdfText}
+${cvText}
 
 ${context ? `El usuario indicó este contexto para el empleo deseado:\n${context}` : 'No especificado'}
 
@@ -45,13 +51,13 @@ Calcula un porcentaje de aprobación general del 0 al 100 (da numeros enteros), 
 
 "Porcentaje de aprobación: XX%".
 `
-/*Por favor, analiza el CV y y dime qué frases o secciones puedo mejorar para hacerlo más profesional, 
-claro y atractivo para reclutadores. 
-Señala ejemplos específicos de frases que debería cambiar, y sugiéreme cómo reescribirlas. 
-También dime si falta algo importante según el tipo de puesto al que se dirige.
-Además, dame un porcentaje general de aprobación del CV del 0 al 100. Este porcentaje debe estar claramente indicado como: 
-"Porcentaje de aprobación: XX%".
-`*/ 
+  /*Por favor, analiza el CV y y dime qué frases o secciones puedo mejorar para hacerlo más profesional, 
+  claro y atractivo para reclutadores. 
+  Señala ejemplos específicos de frases que debería cambiar, y sugiéreme cómo reescribirlas. 
+  También dime si falta algo importante según el tipo de puesto al que se dirige.
+  Además, dame un porcentaje general de aprobación del CV del 0 al 100. Este porcentaje debe estar claramente indicado como: 
+  "Porcentaje de aprobación: XX%".
+  `*/
   const result = await analizarConOpenRouter(prompt)
   return NextResponse.json({ result })
 }
