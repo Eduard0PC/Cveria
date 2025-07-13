@@ -20,7 +20,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default function CVone({ cv }: { cv: AnswersType }) {
   return (
-    <div className="min-h-screen  py-16 px-4">
+    <div className="min-h-screen py-16 px-4">
       <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center gap-6 bg-blue-900 text-white px-8 py-8">
