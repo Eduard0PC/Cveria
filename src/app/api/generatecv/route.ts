@@ -33,9 +33,18 @@ export async function POST(req: Request) {
 
 function generarPrompt(answers: AnswersType, context: string): string {
   return `
-Eres un experto en redacción profesional de currículums.
+Eres un experto en redacción y optimización de currículums para maximizar la puntuación en análisis profesional de CV.
 
-Toma la siguiente información ingresada por un usuario y reescríbela completamente para que suene profesional, clara y atractiva. Devuelve únicamente el resultado como un objeto JSON con la siguiente estructura EXACTA:
+Tu objetivo es crear un CV que obtenga la máxima calificación (100%) en los siguientes criterios:
+
+1. Claridad y redacción impecable.
+2. Relevancia total de la información para el puesto objetivo.
+3. Adecuación perfecta al contexto y tipo de empleo deseado.
+4. Impacto general sobresaliente.
+
+Transforma la información siguiente en un CV profesional, claro, atractivo y orientado a resultados, usando logros cuantificables, verbos de acción y lenguaje específico del sector. Completa cualquier sección faltante de forma creíble y relevante para el puesto.
+
+Devuelve el CV final como un **objeto JSON** con la estructura EXACTA:
 
 {
   "nombre": "...",
@@ -47,28 +56,34 @@ Toma la siguiente información ingresada por un usuario y reescríbela completam
   "fortalezas": ["...", "..."]
 }
 
-Mantén la estructura de los datos, pero reescribe los textos para mejorar su presentación.
+### Indicaciones:
 
-Puesto objetivo: ${context || 'No especificado'}
+- Convierte descripciones genéricas en logros cuantificables y medibles.
+- Usa verbos de acción y lenguaje profesional.
+- Completa información crítica faltante (logros, tecnologías, certificaciones, etc.).
+- Adapta el contenido al puesto objetivo: "${context || 'No especificado'}".
+- Reescribe fortalezas y logros de forma extensa y profesional.
+- No uses frases vagas como "soy responsable", "me gusta trabajar en equipo", etc.
+- **No agregues explicaciones ni comentarios. Solo el JSON.**
 
-Nombre original: ${answers.nombre}
-Contacto original: ${answers.contacto.map(c => `${c.tipo}: ${c.valor}`).join(', ')}
+Información original:
 
-Perfil profesional original:
+Nombre: ${answers.nombre}
+Contacto: ${answers.contacto.map(c => `${c.tipo}: ${c.valor}`).join(', ')}
+
+Perfil:
 ${answers.perfil}
 
-Experiencia laboral original:
+Experiencia:
 ${answers.experiencia.length ? answers.experiencia.map(e => `${e.puesto} en ${e.empresa}: ${e.descripcion}`).join('\n') : 'Sin experiencia'}
 
-Educación original:
+Educación:
 ${answers.educacion.length ? answers.educacion.map(e => `${e.titulo} en ${e.institucion}`).join('\n') : 'No especificada'}
 
-Habilidades originales:
+Habilidades:
 ${answers.habilidades.join(', ') || 'No indicadas'}
 
-Fortalezas o logros originales (ADEMAS Describe de manera mas prolongada fortalezas o logros relevantes):
+Fortalezas o logros:
 ${answers.fortalezas.join(', ') || 'No indicadas'}
-
-Devuelve solo el JSON mejorado. No escribas explicaciones, ni comentarios, ni encabezados.
 `
 }
