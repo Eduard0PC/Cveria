@@ -14,9 +14,9 @@ type AnswersType = {
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { answers, context } = body as { answers: AnswersType; context: string }
+    const { answers, context, correcciones } = body as { answers: AnswersType; context: string; correcciones?: string }
 
-    const prompt = generarPrompt(answers, context)
+    const prompt = generarPrompt(answers, context, correcciones)
     const response = await analizarConOpenRouter(prompt)
 
     const cvMejorado = JSON.parse(response);
@@ -31,9 +31,11 @@ export async function POST(req: Request) {
   }
 }
 
-function generarPrompt(answers: AnswersType, context: string): string {
+function generarPrompt(answers: AnswersType, context: string, correcciones?: string): string {
   return `
 Eres un experto en redacción y optimización de currículums para maximizar la puntuación en análisis profesional de CV.
+
+${correcciones && correcciones.trim() ? `El usuario solicita estas correcciones específicas:\n${correcciones}\n` : ''}
 
 Tu objetivo es crear un CV que obtenga la máxima calificación (100%) en los siguientes criterios:
 

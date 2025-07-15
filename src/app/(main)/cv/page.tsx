@@ -31,6 +31,8 @@ export default function CVPage() {
   const [porcentaje, setPorcentaje] = useState<number | null>(null)
   const [animatedValue, setAnimatedValue] = useState<number>(0)
   const [mostrarAnalisis, setMostrarAnalisis] = useState<boolean>(false)
+  const [correcciones, setCorrecciones] = useState('')
+  const [corrigiendo, setCorrigiendo] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -114,6 +116,30 @@ export default function CVPage() {
         return <CVone cv={cv} />
     }
   }
+
+  async function aplicarCorrecciones() {
+    if (!cv || !correcciones.trim()) return
+    setCorrigiendo(true)
+    try {
+      const res = await fetch('/api/generatecv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers: cv, context: '', correcciones }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setCV(data.cv)
+        sessionStorage.setItem('contenidoCV', JSON.stringify(data.cv)) 
+        setCorrecciones('')
+      } else {
+        alert('Error: ' + data.error)
+      }
+    } catch (error) {
+      alert('Error al aplicar correcciones')
+    } finally {
+      setCorrigiendo(false)
+    }
+  }
   return (
     <div>
       <div className="print:hidden flex justify-center mt-32">
@@ -176,8 +202,19 @@ export default function CVPage() {
             {analisis}
           </pre>
         ) : (
-          <p className="text-gray-500 dark:text-gray-400 text-center">No hay análisis para mostrar.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-center mb-4">Cargando Análisis...</p>
         )}
+      </div>
+
+      <div className="print:hidden max-w-3xl mx-auto mb-8">
+        <label className="block mb-2 font-semibold">¿Qué correcciones quieres que la IA haga al CV?</label>
+        <textarea
+          value={correcciones}
+          onChange={e => setCorrecciones(e.target.value)}
+          placeholder="Escribe aquí tus correcciones o cambios deseados..."
+          className="border p-2 w-full mb-2"
+          rows={5}
+        />
       </div>
 
       <div className="print:hidden flex justify-center mt-8 mb-8 gap-4">
@@ -187,12 +224,22 @@ export default function CVPage() {
         >
           Volver
         </button>
-        <button
-          onClick={() => window.print()}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-        >
-          Imprimir / Guardar PDF
-        </button>
+        {correcciones.trim() ? (
+          <button
+            onClick={aplicarCorrecciones}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            disabled={corrigiendo}
+          >
+            {corrigiendo ? 'Aplicando...' : 'Aplicar correcciones'}
+          </button>
+        ) : (
+          <button
+            onClick={() => window.print()}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+          >
+            Imprimir / Guardar PDF
+          </button>
+        )}
       </div>
     </div>
   )
