@@ -134,7 +134,7 @@ export default function CVPage() {
       } else {
         alert('Error: ' + data.error)
       }
-    } catch (error) {
+    } catch {
       alert('Error al aplicar correcciones')
     } finally {
       setCorrigiendo(false)
